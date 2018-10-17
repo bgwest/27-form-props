@@ -56,7 +56,6 @@ class RedditCard extends React.Component {
 
 RedditCard.propTypes = {
   searchFeed: PropTypes.object,
-  handlePokemonUpdate: PropTypes.func,
   handleNameChange: PropTypes.func,
 };
 

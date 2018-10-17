@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 
-class ReditSearch extends React.Component {
+class RedditSearch extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
     // name should always default to cats and if null is seen there is a problem
-    this.state.searchQuery = this.props.reditQuery.name || 'null';
+    this.state.searchQuery = this.props.redditQuery.name || 'null';
   }
 
   handleChange = event => {
@@ -18,7 +18,7 @@ class ReditSearch extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
     // !: Here, I need to update state, based on my current state
-    this.props.handleUpdateSearchQuery(this.props.reditQuery.name, this.state.searchQuery);
+    this.props.handleUpdateSearchQuery(this.props.redditQuery.name, this.state.searchQuery);
   };
 
   render() {
@@ -31,17 +31,17 @@ class ReditSearch extends React.Component {
           />
           <br/>
           <button
-              className="searchReditButton"
+              className="searchRedditButton"
               type="submit"
-              value="Submit">Search Redit
+              value="Submit">Search Reddit
           </button>
         </form>
     );
   }
 }
 
-ReditSearch.propTypes = {
-  reditQuery: PropTypes.object,
+RedditSearch.propTypes = {
+  redditQuery: PropTypes.object,
 };
 
-export default ReditSearch;
+export default RedditSearch;

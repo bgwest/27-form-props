@@ -3,7 +3,7 @@ import React from 'react';
 import superagent from 'superagent';
 import Header from '../header/header';
 import RedditCard from '../reddit-card/reddit-card';
-import ReditSearch from '../redit-search/redit-search';
+import RedditSearch from '../reddit-search/reddit-search';
 
 // !: = development notes
 
@@ -15,7 +15,7 @@ class App extends React.Component {
     super(props); // !: Initialize everything on React's side of the component
 
     this.state = {};
-    this.state.reditQuery = [ { name: 'cats', searchLimit: 20 } ]; // default value is cats, 20 : )
+    this.state.redditQuery = [ { name: 'cats', searchLimit: 20 } ]; // default value is cats, 20 : )
     this.state.searchFeed = [];
 
   }
@@ -32,7 +32,7 @@ class App extends React.Component {
     // !: an async function ALWAYS returns a promise
     // !: outside of this function, I can use await
     // https://www.reddit.com/r/cats.json?limit=${20}
-    const REDDIT_API = `https://www.reddit.com/r/${this.state.reditQuery[0].name}.json?limit=${this.state.reditQuery[0].searchLimit}`;
+    const REDDIT_API = `https://www.reddit.com/r/${this.state.redditQuery[0].name}.json?limit=${this.state.redditQuery[0].searchLimit}`;
     console.log(REDDIT_API);
     return superagent.get(REDDIT_API)
       .then(response => {
@@ -47,48 +47,20 @@ class App extends React.Component {
       .catch(console.error);
   };
 
-  handleReRender() {
-    this.setState(this.state);
-  };
-
   handleUpdateSearchQuery = async (originalName, newName) => {
     console.log(originalName);
     console.log(newName);
-    this.setState((previousState) => {
+    await this.setState((previousState) => {
       console.log(previousState);
       return {
-        reditQuery: previousState.reditQuery.map(currentPokemon => {
+        redditQuery: previousState.redditQuery.map(currentItem => {
           console.log('anything');
-          return currentPokemon.name === originalName ? {...currentPokemon, name: newName} : currentPokemon;
+          return currentItem.name === originalName ? {...currentItem, name: newName} : currentItem;
         }),
       }
     });
     await this.initialSearchQuery();
   };
-
-  // !: this function takes A single pokemon and updates it in
-  // !: the main pokemon list
-  handlePokemonUpdate = (updatedPokemon) => {
-    // !: using setState is required so that react can update the DOM
-    this.setState((previousState) => {
-      return {
-        pokemon: previousState.pokemon.map(currentPokemon => {
-          return currentPokemon.url === updatedPokemon.url ? updatedPokemon : currentPokemon
-        }),
-      }
-    });
-  };
-
-  handleNameChange = (originalName, newName) => {
-    this.setState((previousState) => {
-      return {
-        pokemon: previousState.pokemon.map(currentPokemon => {
-          return currentPokemon.name === originalName ? {...currentPokemon, name: newName} : currentPokemon;
-        }),
-      }
-    });
-  };
-
 
   // !: React components NEED to have one render function in every component
   render() {
@@ -96,9 +68,9 @@ class App extends React.Component {
       <main>
         <Header/> {/* new Header().render();*/}
         {
-          this.state.reditQuery.map((currentSearch, index) =>
-          <ReditSearch
-              reditQuery={currentSearch}
+          this.state.redditQuery.map((currentSearch, index) =>
+          <RedditSearch
+              redditQuery={currentSearch}
               handleUpdateSearchQuery={this.handleUpdateSearchQuery}
           />
           )
@@ -108,7 +80,6 @@ class App extends React.Component {
             this.state.searchFeed.map((currentFeed, index) =>
               <RedditCard
                 searchFeed = {currentFeed}
-                handlePokemonUpdate = {this.handlePokemonUpdate}
                 handleNameChange = {this.handleNameChange}
               />
             )
