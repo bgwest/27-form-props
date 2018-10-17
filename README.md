@@ -25,7 +25,6 @@ npm run watch
 
 Current Bugs: 
 
-* search button bug -- search button auto searches the default value (which is cats :) ), however you have to click twice for new searches.
 * null error handling is missing. if you click twice to search and console.log has an error, the reddit form does not exist.
  
 
